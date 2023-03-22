@@ -1,0 +1,132 @@
+import random
+playerOneIn = True
+dealerIn = True
+playerTwoIn = True
+
+deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+        'A', 'J', 'Q', 'K']
+
+playerOneHand = []
+dealerHand = []
+playerTwoHand = []
+
+
+def dealCard(turn):
+        card = random.choice(deck)
+        turn.append(card)
+        deck.remove(card)
+
+
+def total(turn):
+        total = 0
+        face = ['J', 'Q', 'K']
+        for card in turn:
+                if card in range(1,11):
+                        total += card
+                elif card in face:
+                        total += 10
+                else:
+                        if total > 11:
+                                total += 1
+                        else:
+                                total += 11
+        return total
+
+def revealDealerHand():
+        if len(dealerHand) == 2:
+                return dealerHand[0]
+        elif len(dealerHand) > 2:
+                return dealerHand[0], dealerHand[1]
+
+for _ in range(2):
+        dealCard(dealerHand)
+        dealCard(playerOneHand)
+        dealCard(playerTwoHand)
+
+while playerOneIn or dealerIn or playerTwoIn:
+        print(f"Dealer had {revealDealerHand()} and X")
+
+        print(f"Player One has{playerOneHand} for a total of {total(playerOneHand)}")
+
+        print(f"Player 2 has{playerTwoHand} for a total of {total(playerTwoHand)}")
+
+        if playerOneIn:
+
+                stayOrHit = input("Does player 1 want to stay or hit?\n1: Stay\n2: Hit\n")
+
+        if \
+                stayOrHit == '1':
+                playerOneIn = False
+
+        else:
+                dealCard(playerOneHand)
+
+
+        if playerTwoIn:
+
+                stayOrHit = input("Does player 2 want to stay or hit?\n1: Stay\n2: Hit\n")
+
+
+        if \
+                stayOrHit == '1':
+                playerTwoIn = False
+        else:
+                dealCard(playerTwoHand)
+
+        if total(dealerHand) > 16:
+                dealerIn = False
+        else:
+                dealCard(dealerHand)
+
+        if total(playerOneHand) >= 21:
+                break
+        if total(dealerHand) >= 21:
+                break
+
+        elif total(playerTwoHand) >= 21:
+                break
+
+if total(playerTwoHand) == 21:
+        print(f"\nPlayer 2 has {playerTwoHand} for a total of {total(playerTwoHand)}, the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player 1 has {playerOneHand} for a total of {total(playerOneHand)}. ")
+        print("BlackJack!  Player 2 wins!  Player 1 and dealer lose. ")
+
+elif total(playerOneHand) == 21:
+        print(f"\nPlayer 1 has {playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player 2 has {playerTwoHand} for a total of {total(playerOneHand)}.  ")
+        print("Blackjack!  Player 1 wins...Dealer and player 2 lose!")
+
+elif total(dealerHand) == 21:
+        print(f"\nPlayer 1 has {playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player 2 has {playerTwoHand} for a total of {total(playerOneHand)}.  ")
+        print("Blackjack!  Dealer wins!")
+
+elif total(dealerHand) == 21 and total(playerOneHand) == 21:
+        print(f"\nPlayer 1 has{playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player two has {playerTwoHand} for a total of {total(playerTwoHand)}.")
+        print("Dealer busts...Player 1 wins!")
+
+elif total(dealerHand) == 21 and total(playerTwoHand) == 21:
+        print(f"\nPlayer 1 has{playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player two has {playerTwoHand} for a total of {total(playerTwoHand)}.")
+        print("Dealer busts...Player 2 wins!")
+
+elif total(playerOneHand) == 21 and total(playerTwoHand) == 21:
+        print(f"\nPlayer 1 has{playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player two has {playerTwoHand} for a total of {total(playerTwoHand)}.")
+        print("Dealer busts...Player 1 and 2 win2!")
+
+
+elif total(dealerHand) == 21 and total(playerTwoHand) == 21 and total(playerOneHand) == 21:
+        print(f"\nPlayer 1 has{playerOneHand} for a total of {total(playerOneHand)},the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player two has {playerTwoHand} for a total of {total(playerTwoHand)}.")
+        print("Dealer busts...Players 1 and 2 win!")
+
+elif total(playerTwoHand) > 21 and total(playerOneHand) > 21:
+        print(f"\nPlayer 2 has {playerTwoHand} for a total of {total(playerTwoHand)}, the dealer has {dealerHand} for a total of {total(dealerHand)},"
+              f"and player 1 has {playerOneHand} for a total of {total(playerOneHand)}. ")
+        print("Player 2 and player 1 bust!  Dealer wins! ")
+
+elif total(dealerHand) > 21:
+        print(f"\n Dealer has {dealerHand} for a total of {total(dealerHand)}."
+              f"Dealer busts!  Player 1 and 2 win!")
